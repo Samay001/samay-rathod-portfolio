@@ -42,6 +42,14 @@ export function Portfolio() {
   const [showAll, setShowAll] = useState(false);
   const visibleProjects = showAll ? projects : projects.slice(0, 2);
 
+  function onTabKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    const next = tab === "work" ? "education" : "work";
+    setTab(next);
+    document.getElementById(`tab-${next}`)?.focus();
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
@@ -65,7 +73,7 @@ export function Portfolio() {
           </div>
 
           <div className="mt-6 flex flex-wrap items-center gap-2">
-            <a className="button-link" href="/Samay_Rathod_Resume.pdf" target="_blank">
+            <a className="button-link" href="/Samay_Rathod_Resume.pdf" target="_blank" rel="noreferrer">
               <FileText className="size-4" /> Resume
             </a>
             <span className="mx-1 h-5 w-px bg-border" />
@@ -78,11 +86,24 @@ export function Portfolio() {
         </section>
 
         <section className="pb-12">
-          <div className="tab-list" role="tablist" aria-label="Background">
-            <button role="tab" aria-selected={tab === "work"} onClick={() => setTab("work")} className={cn("tab-trigger", tab === "work" && "tab-active")}>Work</button>
-            <button role="tab" aria-selected={tab === "education"} onClick={() => setTab("education")} className={cn("tab-trigger", tab === "education" && "tab-active")}>Education</button>
+          <div className="tab-list" role="tablist" aria-label="Background" onKeyDown={onTabKeyDown}>
+            {(["work", "education"] as const).map((name) => (
+              <button
+                key={name}
+                type="button"
+                role="tab"
+                id={`tab-${name}`}
+                aria-controls="tab-panel"
+                aria-selected={tab === name}
+                tabIndex={tab === name ? 0 : -1}
+                onClick={() => setTab(name)}
+                className={cn("tab-trigger", tab === name && "tab-active")}
+              >
+                {name === "work" ? "Work" : "Education"}
+              </button>
+            ))}
           </div>
-          <div className="mt-4 rounded-xl border border-border bg-card p-5">
+          <div id="tab-panel" role="tabpanel" aria-labelledby={`tab-${tab}`} tabIndex={0} className="mt-4 rounded-xl border border-border bg-card p-5">
             {tab === "work" ? (
               <ol className="timeline">
                 {work.map((job) => (
@@ -100,15 +121,17 @@ export function Portfolio() {
                 ))}
               </ol>
             ) : (
-              <div className="timeline-item pl-5">
-                <span className="timeline-dot left-[-5px]" />
-                <div className="flex items-baseline justify-between gap-3">
-                  <h3 className="text-[15px] font-semibold">{education.school}</h3>
-                  <span className="text-xs text-muted-foreground">{education.period}</span>
-                </div>
-                <p className="text-sm text-primary">{education.degree}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{education.location}</p>
-              </div>
+              <ol className="timeline">
+                <li className="timeline-item">
+                  <span className="timeline-dot" />
+                  <div className="flex items-baseline justify-between gap-3">
+                    <h3 className="text-[15px] font-semibold">{education.school}</h3>
+                    <span className="shrink-0 text-xs text-muted-foreground">{education.period}</span>
+                  </div>
+                  <p className="text-sm text-primary">{education.degree}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{education.location}</p>
+                </li>
+              </ol>
             )}
           </div>
         </section>

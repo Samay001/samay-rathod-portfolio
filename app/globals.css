@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* next-themes drives theming with a `.dark` class, so the `dark:` variant must
+   follow that class instead of Tailwind v4's default prefers-color-scheme. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -45,6 +49,8 @@ html { overflow-x: clip; scroll-behavior: smooth; }
 body { margin: 0; overflow-x: hidden; background: var(--background); color: var(--foreground); font-family: var(--font-geist), Arial, sans-serif; }
 button, input, textarea { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
+button:not(:disabled) { cursor: pointer; }
+:where(a, button, input, textarea, [tabindex]):focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: .4rem; }
 
 .hero-texture {
   position: relative;
@@ -74,17 +80,49 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .tab-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: .2rem; border-radius: .7rem; background: var(--muted); padding: .2rem; }
 .tab-trigger { height: 2rem; border-radius: .5rem; color: var(--muted-foreground); font-size: .78rem; font-weight: 550; }
 .tab-active { background: var(--card); color: var(--foreground); box-shadow: 0 1px 4px rgba(15, 23, 42, .08); }
-.timeline { position: relative; list-style: none; margin: 0; padding: 0 0 0 1rem; }
-.timeline::before { content: ""; position: absolute; left: 0; top: .45rem; bottom: .45rem; width: 1px; background: var(--border); }
-.timeline-item { position: relative; padding: 0 0 1.75rem .35rem; }
+/* --rail-x is the rail's centre line and --rail-gap where item text starts, both
+   measured from .timeline's left edge; the dot derives its offset from the same
+   two values so the marker can never drift off the line. */
+.timeline { --rail-x: .5rem; --rail-gap: 1.5rem; --dot: 9px; position: relative; list-style: none; margin: 0; padding-left: var(--rail-gap); }
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: var(--rail-x);
+  top: .55rem;
+  bottom: .1rem;
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--primary) 50%, transparent) 0,
+    var(--border) 26%,
+    color-mix(in srgb, var(--border) 12%, transparent) 100%);
+}
+/* a lone entry gets the marker but no rail stub */
+.timeline:has(> .timeline-item:only-child)::before { display: none; }
+.timeline-item { position: relative; padding: 0 0 1.6rem; }
 .timeline-item:last-child { padding-bottom: 0; }
-.timeline-dot { position: absolute; left: -1.31rem; top: .42rem; width: .48rem; height: .48rem; border: 2px solid var(--card); border-radius: 999px; background: var(--primary); box-shadow: 0 0 0 1px var(--border); }
+.timeline-dot {
+  position: absolute;
+  left: calc(var(--rail-x) - var(--rail-gap) - var(--dot) / 2);
+  top: .42rem;
+  width: var(--dot);
+  height: var(--dot);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--muted-foreground) 55%, var(--card));
+  box-shadow: 0 0 0 3px var(--card);
+}
+/* the most recent entry reads as "current" */
+.timeline-item:first-child .timeline-dot {
+  background: var(--primary);
+  box-shadow: 0 0 0 3px var(--card), 0 0 0 5px color-mix(in srgb, var(--primary) 20%, transparent);
+}
 .work-bullet { position: relative; padding-left: 1rem; color: var(--muted-foreground); font-size: .82rem; line-height: 1.55; }
-.work-bullet::before { content: ""; position: absolute; left: .15rem; top: .65rem; width: .22rem; height: .22rem; border-radius: 99px; background: var(--border); }
+.work-bullet::before { content: ""; position: absolute; left: .15rem; top: .63rem; width: .25rem; height: .25rem; border-radius: 99px; background: color-mix(in srgb, var(--muted-foreground) 60%, transparent); }
 
 .project-card { display: flex; min-width: 0; flex-direction: column; overflow: hidden; border: 1px solid var(--border); border-radius: .85rem; background: var(--card); transition: transform .2s, box-shadow .2s, border-color .2s; }
 .project-card:hover { border-color: color-mix(in srgb, var(--primary) 30%, var(--border)); transform: translateY(-2px); box-shadow: 0 12px 28px rgba(18, 27, 38, .08); }
-.pill { display: inline-flex; border-radius: 999px; background: var(--muted); padding: .2rem .48rem; color: var(--muted-foreground); font-size: .65rem; line-height: 1; }
+.pill { display: inline-flex; border-radius: 999px; background: var(--muted); padding: .24rem .52rem; color: var(--muted-foreground); font-size: .7rem; line-height: 1.15; }
 .pill-outline { border: 1px solid var(--border); background: transparent; }
 .award-card { display: flex; align-items: center; gap: .7rem; border: 1px solid var(--border); border-radius: .65rem; background: var(--card); padding: .7rem .8rem; }
 
@@ -98,23 +136,32 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .chat-message { width: fit-content; max-width: 88%; margin-bottom: .65rem; border-radius: .8rem .8rem .8rem .2rem; background: var(--muted); padding: .6rem .7rem; color: var(--foreground); font-size: .79rem; line-height: 1.48; white-space: pre-wrap; }
 .chat-message-user { margin-left: auto; border-radius: .8rem .8rem .2rem .8rem; background: var(--primary); color: var(--primary-foreground); }
 .chat-controls { flex: none; border-top: 1px solid var(--border); padding: .62rem .7rem .55rem; }
-.chat-pills { display: flex; gap: .35rem; overflow-x: auto; padding-bottom: .48rem; scrollbar-width: none; }
-.chat-pill { flex: none; border: 1px solid var(--border); border-radius: 999px; padding: .28rem .58rem; color: var(--muted-foreground); font-size: .66rem; white-space: nowrap; transition: .15s; }
-.chat-pill:hover { border-color: var(--primary); color: var(--primary); }
+.chat-pills { display: flex; flex-wrap: wrap; gap: .35rem; padding-bottom: .48rem; }
+.chat-pill { border: 1px solid var(--border); border-radius: 999px; padding: .28rem .58rem; color: var(--muted-foreground); font-size: .7rem; line-height: 1.3; text-align: left; transition: .15s; }
+.chat-pill:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+.chat-pill:disabled { cursor: not-allowed; opacity: .5; }
 .chat-composer { display: flex; gap: .4rem; }
 .chat-composer input { min-width: 0; flex: 1; height: 2rem; border: 1px solid var(--border); border-radius: .5rem; background: var(--background); padding: 0 .65rem; color: var(--foreground); font-size: .75rem; outline: none; }
 .chat-composer input:focus { border-color: var(--ring); box-shadow: 0 0 0 2px color-mix(in srgb, var(--ring) 18%, transparent); }
-.chat-reset { display: flex; align-items: center; gap: .25rem; margin: .42rem auto 0; color: var(--muted-foreground); font-size: .6rem; }
+.chat-reset { display: flex; align-items: center; gap: .25rem; margin: .42rem auto 0; color: var(--muted-foreground); font-size: .68rem; }
+.chat-reset:hover { color: var(--foreground); }
+.chat-error { margin: 0 0 .1rem; color: #d93636; font-size: .68rem; }
+.dark .chat-error { color: #ff8a8a; }
 .contact-form { display: grid; gap: .4rem; margin-top: .55rem; border: 1px solid var(--border); border-radius: .7rem; background: var(--background); padding: .65rem; }
 .contact-form input, .contact-form textarea { width: 100%; min-width: 0; border: 1px solid var(--border); border-radius: .42rem; background: var(--card); padding: .42rem .5rem; color: var(--foreground); font-size: .7rem; outline: none; }
 .contact-form textarea { resize: vertical; }
 .contact-form input:focus, .contact-form textarea:focus { border-color: var(--ring); }
 
 @media (max-width: 640px) {
-  .nav-link { display: none; }
+  .nav-link { padding: .4rem .4rem; font-size: .76rem; }
   .profile-frame { width: 170px; height: 170px; }
-  .chat-shell { right: 12px; bottom: 12px; }
+  /* wrapped suggestion pills need a few more rows, so give the panel more height */
+  .chat-shell { right: 12px; bottom: 12px; height: min(560px, calc(100dvh - 24px)); }
   .chat-launcher { right: 1rem; bottom: 1rem; }
+}
+
+@media (max-width: 380px) {
+  .nav-link { padding: .4rem .28rem; font-size: .72rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

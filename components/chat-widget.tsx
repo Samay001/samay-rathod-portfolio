@@ -8,11 +8,12 @@ import { cn } from "@/lib/utils";
 type ChatMessage = { id: string; role: "user" | "assistant"; content: string };
 
 async function readAnswer(reader: ReadableStreamDefaultReader<Uint8Array>, decoder: TextDecoder, assistantId: string, update: React.Dispatch<React.SetStateAction<ChatMessage[]>>) {
-  const { done, value } = await reader.read();
-  if (done) return;
-  const chunk = decoder.decode(value, { stream: true });
-  update((current) => current.map((message) => message.id === assistantId ? { ...message, content: message.content + chunk } : message));
-  await readAnswer(reader, decoder, assistantId, update);
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) return;
+    const chunk = decoder.decode(value, { stream: true });
+    update((current) => current.map((message) => message.id === assistantId ? { ...message, content: message.content + chunk } : message));
+  }
 }
 
 const starterPrompts = [
@@ -45,6 +46,7 @@ export function ChatWidget() {
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [contactError, setContactError] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "welcome",
@@ -57,6 +59,15 @@ export function ChatWidget() {
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, contactOpen]);
+
+  useEffect(() => {
+    if (!open) return;
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpen(false);
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   async function ask(question: string) {
     const prompt = question.trim();
@@ -97,6 +108,7 @@ export function ChatWidget() {
     const form = event.currentTarget;
     const formData = new FormData(form);
     setSending(true);
+    setContactError("");
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -104,6 +116,10 @@ export function ChatWidget() {
         body: JSON.stringify(Object.fromEntries(formData)),
       });
       const result = await response.json();
+      if (!response.ok) {
+        setContactError(result.error ?? "That didn't go through. Please check the fields and try again.");
+        return;
+      }
       if (result.mailto) window.location.href = result.mailto;
       setMessages((current) => [...current, {
         id: crypto.randomUUID(),
@@ -113,6 +129,7 @@ export function ChatWidget() {
       setContactOpen(false);
       form.reset();
     } catch {
+      setContactError("Couldn't reach the server. Opening your email app instead.");
       window.location.href = "mailto:samayrathod1@gmail.com";
     } finally {
       setSending(false);
@@ -120,7 +137,8 @@ export function ChatWidget() {
   }
 
   const latest = [...messages].reverse().find((message) => message.role === "assistant")?.content ?? "";
-  const suggestions = messages.length === 1 ? starterPrompts : suggestionsFor(latest);
+  const asked = new Set(messages.filter((message) => message.role === "user").map((message) => message.content.toLowerCase()));
+  const suggestions = (messages.length === 1 ? starterPrompts : suggestionsFor(latest)).filter((suggestion) => !asked.has(suggestion.toLowerCase()));
 
   if (!open) {
     return (
@@ -157,7 +175,7 @@ export function ChatWidget() {
               <form className="contact-form" onSubmit={submitContact}>
                 <div className="flex items-center justify-between">
                   <p className="text-xs font-semibold">Email Samay</p>
-                  <button type="button" onClick={() => setContactOpen(false)} aria-label="Close contact form"><X className="size-3.5" /></button>
+                  <button type="button" onClick={() => { setContactOpen(false); setContactError(""); }} aria-label="Close contact form"><X className="size-3.5" /></button>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <input required name="name" placeholder="Name" aria-label="Name" />
@@ -165,22 +183,31 @@ export function ChatWidget() {
                 </div>
                 <input required name="subject" placeholder="Subject" aria-label="Subject" />
                 <textarea required name="message" rows={3} placeholder="Message" aria-label="Message" />
+                {contactError && <p className="chat-error" role="alert">{contactError}</p>}
                 <Button size="sm" type="submit" disabled={sending}><Mail className="size-3.5" />Send Email</Button>
               </form>
             )}
           </div>
 
           <div className="chat-controls">
-            <div className="chat-pills">
+            {suggestions.length > 0 && <div className="chat-pills">
               {suggestions.map((suggestion) => (
-                <button key={suggestion} className="chat-pill" onClick={() => suggestion.includes("Email") ? setContactOpen(true) : ask(suggestion)}>{suggestion}</button>
+                <button
+                  key={suggestion}
+                  type="button"
+                  className="chat-pill"
+                  disabled={sending}
+                  onClick={() => suggestion.includes("Email") ? setContactOpen(true) : ask(suggestion)}
+                >
+                  {suggestion}
+                </button>
               ))}
-            </div>
+            </div>}
             <form className="chat-composer" onSubmit={(event) => { event.preventDefault(); ask(input); }}>
               <input value={input} onChange={(event) => setInput(event.target.value)} placeholder="Ask a question..." aria-label="Ask a question" />
               <Button size="icon" type="submit" disabled={!input.trim() || sending} aria-label="Send question"><Send className="size-4" /></Button>
             </form>
-            <button className="chat-reset" onClick={() => { setMessages(messages.slice(0, 1)); setContactOpen(false); }}><RotateCcw className="size-3" />Reset conversation</button>
+            <button type="button" className="chat-reset" onClick={() => { setMessages((current) => current.slice(0, 1)); setContactOpen(false); setContactError(""); }}><RotateCcw className="size-3" />Reset conversation</button>
           </div>
         </>
       )}
