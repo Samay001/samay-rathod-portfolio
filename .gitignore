@@ -1,0 +1,12 @@
+node_modules/
+.npm-cache/
+design/
+tmp/
+.next/
+.vercel/
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+*.tsbuildinfo
+.DS_Store
