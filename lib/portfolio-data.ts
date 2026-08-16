@@ -32,7 +32,7 @@ export const education = {
 export const projects = [
   {
     title: "Wealth One",
-    image: "/projects/wealth-one.png",
+    image: "/projects/wealth-one.webp",
     stack: ["Java", "Spring Boot", "TypeScript", "Next.js", "Docker"],
     bullets: [
       "Aggregates CoinDCX, Upstox, and CoinGecko investment data into portfolio visualizations.",
@@ -43,7 +43,7 @@ export const projects = [
   },
   {
     title: "AI Interviewer",
-    image: "/projects/ai-interviewer.png",
+    image: "/projects/ai-interviewer.webp",
     stack: ["TypeScript", "Nest.js", "MongoDB", "OpenAI"],
     bullets: [
       "Technical-screening platform with JWT auth, role-based access, AI question generation, scoring, and result emails.",
@@ -57,7 +57,7 @@ export const projects = [
   },
   {
     title: "Content Creation Automation",
-    image: "/projects/content-automation.png",
+    image: "/projects/content-automation.webp",
     stack: ["TypeScript", "Nest.js", "Gemini", "OpenAI", "FAL AI"],
     bullets: [
       "Converts source images, generates video prompts and captions, and creates social videos.",
@@ -71,7 +71,7 @@ export const projects = [
   },
   {
     title: "JoinSparks",
-    image: "/projects/joinsparks.png",
+    image: "/projects/joinsparks.webp",
     stack: ["TypeScript", "Next.js", "Tailwind CSS"],
     bullets: [
       "Responsive campus social and discovery experience for verified university students.",

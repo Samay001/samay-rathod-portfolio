@@ -60,7 +60,7 @@ export function Portfolio() {
               </p>
             </div>
             <div className="profile-frame">
-              <Image src="/samay-profile.jpg" alt="Portrait of Samay Rathod" fill priority sizes="420px" className="profile-photo" />
+              <Image src="/samay-profile-cropped.jpg" alt="Portrait of Samay Rathod" fill priority sizes="(max-width: 640px) 170px, 210px" className="profile-photo" />
             </div>
           </div>
 
@@ -116,10 +116,10 @@ export function Portfolio() {
         <section id="projects" className="scroll-mt-20 pb-12">
           <SectionTitle>Featured Projects</SectionTitle>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            {visibleProjects.map((project) => (
+            {visibleProjects.map((project, index) => (
               <article key={project.title} className="project-card">
-                <div className="relative aspect-[16/9] border-b border-border bg-muted">
-                  <Image src={project.image} alt={`${project.title} interface preview`} fill sizes="(max-width: 640px) 100vw, 350px" className="object-cover" />
+                <div className="relative aspect-[8/5] overflow-hidden border-b border-border bg-white">
+                  <Image src={project.image} alt={`${project.title} interface preview`} fill priority={index < 2} sizes="(max-width: 640px) 100vw, 350px" className="object-contain" />
                 </div>
                 <div className="flex flex-1 flex-col p-4">
                   <h3 className="text-[15px] font-semibold">{project.title}</h3>

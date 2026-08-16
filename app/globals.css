@@ -41,7 +41,7 @@
 }
 
 * { border-color: var(--border); }
-html { scroll-behavior: smooth; }
+html { overflow-x: clip; scroll-behavior: smooth; }
 body { margin: 0; overflow-x: hidden; background: var(--background); color: var(--foreground); font-family: var(--font-geist), Arial, sans-serif; }
 button, input, textarea { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
@@ -69,7 +69,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .social-link { width: 2rem; padding: 0; color: var(--muted-foreground); }
 
 .profile-frame { position: relative; flex: 0 0 auto; width: 210px; height: 210px; overflow: hidden; border: 1px solid var(--border); border-radius: 1rem; background: var(--muted); box-shadow: 0 10px 28px rgba(18, 27, 38, .08); }
-.profile-photo { object-fit: cover; transform: scale(1.92); transform-origin: 24% 71%; }
+.profile-photo { object-fit: cover; object-position: center; }
 
 .tab-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: .2rem; border-radius: .7rem; background: var(--muted); padding: .2rem; }
 .tab-trigger { height: 2rem; border-radius: .5rem; color: var(--muted-foreground); font-size: .78rem; font-weight: 550; }
