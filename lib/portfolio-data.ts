@@ -96,7 +96,7 @@ export const awards = [
 ] as const;
 
 export const portfolioContext = `
-Samay Rathod is an Associate Software Engineer focused on backend engineering, voice AI, and applied AI.
+Samay Rathod is an Associate Software Engineer focused on full-stack development, call and web chatbots, and applied AI. He is a two-time hackathon winner with ₹1.1 lakh in total prizes.
 At EDMO since April 2025, he built Nest.js call routing between Genesys AudioHook and VAPI serving 3,000+ calls daily; a contextual advisor handoff; an NYU OGS RAG chatbot using pgvector and 300+ scraped pages with 82% phase-one accuracy; a Kafka and Google Cloud Storage video pipeline; and an Amazon Textract transfer-credit evaluation system.
 At Sarvm.ai from February to April 2025, he built a Node.js/PostgreSQL audit over 5,000+ records that reduced invalid entries by 25%, plus a REST API syncing subscription updates to Elasticsearch.
 Projects: Wealth One, AI Interviewer, Content Creation Automation, and JoinSparks. Skills: TypeScript, Java, C++, Node.js, Nest.js, Spring Boot, Next.js, PostgreSQL, pgvector, MongoDB, Apache Kafka, Elasticsearch, VAPI, Genesys AudioHook, RAG, OpenAI, Gemini, Amazon Textract, Docker, Kubernetes, and GCP.

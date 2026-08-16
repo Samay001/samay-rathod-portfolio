@@ -8,11 +8,11 @@ const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono"
 
 export const metadata: Metadata = {
   title: "Samay Rathod — Associate Software Engineer",
-  description: "Portfolio of Samay Rathod: backend platforms, voice AI, RAG systems, and event-driven services.",
+  description: "Portfolio of Samay Rathod: full-stack products, call and web chatbots, RAG systems, and applied AI.",
   metadataBase: new URL("https://samay-rathod.vercel.app"),
   openGraph: {
     title: "Samay Rathod — Associate Software Engineer",
-    description: "Backend platforms, voice AI, RAG systems, and event-driven services.",
+    description: "Full-stack products, call and web chatbots, RAG systems, and applied AI.",
     type: "website",
   },
 };

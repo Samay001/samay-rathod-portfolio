@@ -15,7 +15,7 @@ function demoAnswer(question: string) {
   if (prompt.includes("technolog") || prompt.includes("skill") || prompt.includes("stack")) return "Samay's core stack includes TypeScript, Java, Node.js, Nest.js, Spring Boot, Next.js, PostgreSQL, MongoDB, Kafka, Elasticsearch, Docker, Kubernetes, and GCP. His applied-AI work includes RAG, VAPI, Genesys AudioHook, OpenAI, Gemini, pgvector, and Amazon Textract.";
   if (prompt.includes("wealth")) return "Wealth One aggregates investment data from CoinDCX, Upstox, and CoinGecko into portfolio visualizations. It also includes a Gemini-powered assistant for mutual-fund analysis.";
   if (prompt.includes("interview")) return "AI Interviewer is a technical-screening platform with JWT authentication, role-based access, resume parsing, AI-generated questions, scoring, speech interaction, and result emails.";
-  return "Samay has built Wealth One, AI Interviewer, Content Creation Automation, and JoinSparks. His production work focuses on scalable backend systems, voice AI, RAG, and event-driven services. Ask me about a specific project or his experience at EDMO.";
+  return "Samay has built Wealth One, AI Interviewer, Content Creation Automation, and JoinSparks. His work spans scalable full-stack products, call and web chatbots, RAG, and event-driven services. Ask me about a specific project or his experience at EDMO.";
 }
 
 export async function POST(request: Request) {

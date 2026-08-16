@@ -50,13 +50,13 @@ export function Portfolio() {
           <div className="flex flex-col-reverse items-start gap-7 sm:flex-row sm:justify-between">
             <div className="min-w-0 flex-1">
               <h1 className="max-w-[470px] text-[2rem] font-semibold leading-[1.14] tracking-[-0.035em] sm:text-[2.35rem]">
-                I Build Backend Systems That Scale.
+                I Build Full-Stack Products That Scale.
               </h1>
               <p className="mt-3 max-w-[470px] text-[15px] leading-relaxed text-muted-foreground">
-                I&apos;m Samay, an Associate Software Engineer focused on backend engineering, voice AI, and applied AI.
+                I&apos;m Samay, an Associate Software Engineer focused on full-stack development, call and web chatbots, and applied AI.
               </p>
               <p className="mt-3 max-w-[470px] text-[15px] leading-relaxed text-muted-foreground">
-                I build production systems—from call-routing platforms handling thousands of daily conversations to RAG tools and event-driven pipelines.
+                A two-time hackathon winner with ₹1.1 lakh in total prizes, I&apos;m driven by curiosity, fast execution, and a love for turning ambitious ideas into standout products.
               </p>
             </div>
             <div className="profile-frame">
