@@ -73,7 +73,7 @@ export function Portfolio() {
           </div>
 
           <div className="mt-6 flex flex-wrap items-center gap-2">
-            <a className="button-link" href="/Samay_Rathod_Resume.pdf" target="_blank" rel="noreferrer">
+            <a className="button-link" href="https://drive.google.com/file/d/1qpsMKHsihdIHxojn6d5SGEXdEuj_dBi_/view?usp=sharing" target="_blank" rel="noreferrer">
               <FileText className="size-4" /> Resume
             </a>
             <span className="mx-1 h-5 w-px bg-border" />
