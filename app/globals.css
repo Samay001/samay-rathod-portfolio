@@ -74,7 +74,7 @@ button:not(:disabled) { cursor: pointer; }
 .button-link-ghost { border-color: transparent; background: var(--muted); }
 .social-link { width: 2rem; padding: 0; color: var(--muted-foreground); }
 
-.profile-frame { position: relative; flex: 0 0 auto; width: 210px; height: 210px; overflow: hidden; border: 1px solid var(--border); border-radius: 1rem; background: var(--muted); box-shadow: 0 10px 28px rgba(18, 27, 38, .08); }
+.profile-frame { position: relative; flex: 0 0 auto; width: 210px; height: 210px; overflow: hidden; border: 1px solid var(--border); border-radius: 50%; background: var(--muted); box-shadow: 0 10px 28px rgba(18, 27, 38, .08); }
 .profile-photo { object-fit: cover; object-position: center; }
 
 .tab-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: .2rem; border-radius: .7rem; background: var(--muted); padding: .2rem; }

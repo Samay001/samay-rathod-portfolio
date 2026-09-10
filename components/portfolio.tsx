@@ -68,7 +68,7 @@ export function Portfolio() {
               </p>
             </div>
             <div className="profile-frame">
-              <Image src="/samay-profile-cropped.jpg" alt="Portrait of Samay Rathod" fill priority sizes="(max-width: 640px) 170px, 210px" className="profile-photo" />
+              <Image src="/samay-profile-circle.png" alt="Portrait of Samay Rathod" fill priority sizes="(max-width: 640px) 170px, 210px" className="profile-photo" />
             </div>
           </div>
 
