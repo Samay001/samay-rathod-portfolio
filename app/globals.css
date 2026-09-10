@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../node_modules/streamdown/dist/*.js";
 
 /* next-themes drives theming with a `.dark` class, so the `dark:` variant must
    follow that class instead of Tailwind v4's default prefers-color-scheme. */
@@ -133,8 +134,23 @@ button:not(:disabled) { cursor: pointer; }
 .chat-header { display: flex; min-height: 60px; align-items: center; gap: .55rem; border-bottom: 1px solid var(--border); padding: 0 .7rem 0 .85rem; }
 .status-dot { width: .5rem; height: .5rem; flex: none; border-radius: 99px; background: #16c784; box-shadow: 0 0 0 3px color-mix(in srgb, #16c784 14%, transparent); }
 .chat-scroll { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: .9rem .8rem; scrollbar-width: thin; }
-.chat-message { width: fit-content; max-width: 88%; margin-bottom: .65rem; border-radius: .8rem .8rem .8rem .2rem; background: var(--muted); padding: .6rem .7rem; color: var(--foreground); font-size: .79rem; line-height: 1.48; white-space: pre-wrap; }
-.chat-message-user { margin-left: auto; border-radius: .8rem .8rem .2rem .8rem; background: var(--primary); color: var(--primary-foreground); }
+.chat-message { width: fit-content; max-width: 88%; margin-bottom: .65rem; border-radius: .8rem .8rem .8rem .2rem; background: var(--muted); padding: .6rem .7rem; color: var(--foreground); font-size: .79rem; line-height: 1.48; }
+.chat-message-user { margin-left: auto; border-radius: .8rem .8rem .2rem .8rem; background: var(--primary); color: var(--primary-foreground); white-space: pre-wrap; }
+.chat-markdown { overflow-wrap: anywhere; }
+.chat-markdown :where(p, ul, ol, pre, blockquote) { margin: 0; }
+.chat-markdown :where(p, ul, ol, pre, blockquote) + :where(p, ul, ol, pre, blockquote) { margin-top: .55rem; }
+.chat-markdown :where(ul, ol) { padding-left: 1.15rem; }
+.chat-markdown ul { list-style: disc; }
+.chat-markdown ol { list-style: decimal; }
+.chat-markdown li { padding-left: .08rem; }
+.chat-markdown li + li { margin-top: .28rem; }
+.chat-markdown strong { color: var(--foreground); font-weight: 650; }
+.chat-markdown :where(h1, h2, h3, h4) { margin: 0 0 .4rem; color: var(--foreground); font-size: .82rem; line-height: 1.3; font-weight: 650; }
+.chat-markdown a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
+.chat-markdown code { border-radius: .25rem; background: color-mix(in srgb, var(--background) 75%, transparent); padding: .08rem .25rem; font-family: var(--font-geist-mono), monospace; font-size: .72rem; }
+.chat-markdown pre { overflow-x: auto; border: 1px solid var(--border); border-radius: .45rem; background: var(--background); padding: .5rem; }
+.chat-markdown pre code { background: transparent; padding: 0; }
+.chat-markdown blockquote { border-left: 2px solid var(--primary); padding-left: .55rem; color: var(--muted-foreground); }
 .chat-controls { flex: none; border-top: 1px solid var(--border); padding: .62rem .7rem .55rem; }
 .chat-pills { display: flex; flex-wrap: wrap; gap: .35rem; padding-bottom: .48rem; }
 .chat-pill { border: 1px solid var(--border); border-radius: 999px; padding: .28rem .58rem; color: var(--muted-foreground); font-size: .7rem; line-height: 1.3; text-align: left; transition: .15s; }

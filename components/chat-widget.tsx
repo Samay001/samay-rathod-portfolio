@@ -1,11 +1,16 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { LoaderCircle, Mail, MessageCircle, Minus, RotateCcw, Send, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type ChatMessage = { id: string; role: "user" | "assistant"; content: string };
+
+const MessageResponse = dynamic(() =>
+  import("@/components/ai-elements/message").then((module) => module.MessageResponse),
+);
 
 async function readAnswer(reader: ReadableStreamDefaultReader<Uint8Array>, decoder: TextDecoder, assistantId: string, update: React.Dispatch<React.SetStateAction<ChatMessage[]>>) {
   for (;;) {
@@ -167,7 +172,11 @@ export function ChatWidget() {
           <div ref={scrollRef} className="chat-scroll" aria-live="polite">
             {messages.map((message) => (
               <div key={message.id} className={cn("chat-message", message.role === "user" && "chat-message-user")}>
-                {message.content || <LoaderCircle className="size-4 animate-spin" />}
+                {message.content ? (
+                  message.role === "assistant" ? (
+                    <MessageResponse className="chat-markdown">{message.content}</MessageResponse>
+                  ) : message.content
+                ) : <LoaderCircle className="size-4 animate-spin" />}
               </div>
             ))}
 
