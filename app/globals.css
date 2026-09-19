@@ -66,6 +66,12 @@ button:not(:disabled) { cursor: pointer; }
   background-size: 40px 40px;
   mask-image: linear-gradient(to bottom, black, transparent 78%);
 }
+.hero-kicker { display: flex; align-items: center; gap: .55rem; margin: 0 0 .72rem; color: var(--muted-foreground); font-size: .74rem; font-weight: 550; }
+.hero-kicker-role { display: inline-flex; align-items: center; gap: .4rem; border-radius: 999px; background: color-mix(in srgb, var(--primary) 10%, transparent); padding: .26rem .52rem; color: var(--primary); }
+.hero-kicker-role span { width: .38rem; height: .38rem; border-radius: 99px; background: currentColor; box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 14%, transparent); }
+.hero-highlight { color: var(--primary); }
+.hero-proof { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin: .95rem 0 0; color: var(--muted-foreground); font-size: .82rem; }
+.hero-proof strong { color: var(--foreground); font-weight: 650; }
 
 .nav-link { padding: .45rem .7rem; border-radius: .45rem; color: var(--muted-foreground); font-size: .82rem; transition: .2s; }
 .nav-link:hover { background: var(--muted); color: var(--foreground); }
@@ -170,6 +176,7 @@ button:not(:disabled) { cursor: pointer; }
 
 @media (max-width: 640px) {
   .nav-link { padding: .4rem .4rem; font-size: .76rem; }
+  .hero-kicker { gap: .4rem; font-size: .69rem; }
   .profile-frame { width: 170px; height: 170px; }
   /* wrapped suggestion pills need a few more rows, so give the panel more height */
   .chat-shell { right: 12px; bottom: 12px; height: min(560px, calc(100dvh - 24px)); }

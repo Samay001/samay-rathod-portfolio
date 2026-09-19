@@ -57,14 +57,18 @@ export function Portfolio() {
         <section id="home" className="hero-texture scroll-mt-20 py-11">
           <div className="flex flex-col-reverse items-start gap-7 sm:flex-row sm:justify-between">
             <div className="min-w-0 flex-1">
+              <p className="hero-kicker">
+                <span className="hero-kicker-role"><span aria-hidden="true" />SWE @ EDMO</span>
+                <span>Building for higher education</span>
+              </p>
               <h1 className="max-w-[470px] text-[2rem] font-semibold leading-[1.14] tracking-[-0.035em] sm:text-[2.35rem]">
-                I Build Full-Stack Products That Scale.
+                Building <span className="hero-highlight">full-stack, AI-powered admissions products</span> for U.S. universities.
               </h1>
               <p className="mt-3 max-w-[470px] text-[15px] leading-relaxed text-muted-foreground">
-                I&apos;m Samay, an Associate Software Engineer focused on full-stack development, call and web chatbots, and applied AI.
+                I&apos;m Samay, a full-stack engineer creating dependable products for university teams and the students they serve.
               </p>
-              <p className="mt-3 max-w-[470px] text-[15px] leading-relaxed text-muted-foreground">
-                A two-time hackathon winner with ₹1.1 lakh in total prizes, I&apos;m driven by curiosity, fast execution, and a love for turning ambitious ideas into standout products.
+              <p className="hero-proof">
+                <strong>2× Hackathon Winner</strong><span aria-hidden="true">•</span>₹1.1L+ in total prizes
               </p>
             </div>
             <div className="profile-frame">
